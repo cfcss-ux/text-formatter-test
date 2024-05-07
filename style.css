@@ -1,0 +1,80 @@
+body, html {
+    max-height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    height: 75vh;
+    padding: 24px;
+    box-sizing: border-box;
+    width: 100%;
+    gap: 16px;
+    justify-items: center;
+}
+
+textarea {
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    resize: none;
+    box-sizing: border-box;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+button {
+    max-height: 48px;
+    margin: 16px 4px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 75%;
+    text-decoration: underline;
+    text-decoration-thickness: 2.5px;
+}
+
+
+/* light/darkmode ... */
+.dark-mode {
+    background-color: #333;
+    color: white;
+}
+
+.dark-mode textarea {
+    background-color: #555;
+    color: white;
+}
+
+.textarea-container {
+    flex-grow: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* discrep red */
+
+.bold-red {
+    font-weight: bold;
+    color: red;
+}
