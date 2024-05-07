@@ -5,7 +5,7 @@ document.getElementById('cleanButton').addEventListener('click', function() {
 });
 
 function cleanMultipleTextBlocks(text) {
-    // Optional cleaning, comment out if not needed
+    // Optional
     text = text.replace(/\n   /g, '');
     text = text.replace(/ {9}/g, ' ');
 
@@ -24,14 +24,6 @@ function cleanMultipleTextBlocks(text) {
         // Add text up to 'METHOD:' as is
         cleanedText += text.substring(lastIndex, methodStart);
 
-        if (statusStart === -1) {
-            // Process the final block which only contains 'METHOD:'
-            let relevantText = text.substring(methodStart + 'METHOD:'.length);
-            relevantText = cleanText(relevantText);
-            cleanedText += 'METHOD:' + relevantText;
-            break; // Exit the loop as this is the last block
-        }
-
         // Process the text between 'METHOD:' and 'STATUS    :'
         let relevantText = text.substring(methodStart + 'METHOD:'.length, statusStart);
         relevantText = cleanText(relevantText);
@@ -43,7 +35,6 @@ function cleanMultipleTextBlocks(text) {
         lastIndex = statusStart + 'STATUS    :'.length;
     }
 
-    cleanedText = cleanedText.replace(/ {9}/g, ' ');
     return cleanedText;
 }
 
@@ -53,8 +44,6 @@ function cleanText(text) {
     text = text.replace(/ {6}/g, '');
     return text;
 }
-
-
 
 document.getElementById('cleanButton').addEventListener('click', function() {
     var inputText = document.getElementById('inputText').value;
