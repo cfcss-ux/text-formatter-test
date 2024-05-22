@@ -13,26 +13,32 @@ function cleanMultipleTextBlocks(text) {
     let lastIndex = 0;
 
     while (true) {
-        let methodStart = text.indexOf('METHOD:', lastIndex);
-        let statusStart = text.indexOf('STATUS    :', methodStart);
-
-        if (methodStart === -1) {
-            cleanedText += text.substring(lastIndex); // Append any remaining text
-            break;
-        }
-
-        // Add text up to 'METHOD:' as is
-        cleanedText += text.substring(lastIndex, methodStart);
-
-        // Process the text between 'METHOD:' and 'STATUS    :'
+      let methodStart = text.indexOf('METHOD:', lastIndex);
+      let statusStart = text.indexOf('STATUS :', methodStart);
+      
+      if (methodStart === -1) {
+        cleanedText += text.substring(lastIndex); // Append any remaining text
+        break;
+      }
+      
+      // Add text up to 'METHOD:' as is
+      cleanedText += text.substring(lastIndex, methodStart);
+      
+      if (statusStart !== -1) {
+        // Process the text between 'METHOD:' and 'STATUS :'
         let relevantText = text.substring(methodStart + 'METHOD:'.length, statusStart);
         relevantText = cleanText(relevantText);
-
-        // Append processed text and include 'METHOD:' and 'STATUS    :' as is
-        cleanedText += 'METHOD:' + relevantText + '\n\nSTATUS    :';
-
+        
+        // Append processed text and include 'METHOD:' and 'STATUS :' as is
+        cleanedText += 'METHOD:' + relevantText + '\\n\\nSTATUS :';
+        
         // Update lastIndex for the next iteration
-        lastIndex = statusStart + 'STATUS    :'.length;
+        lastIndex = statusStart + 'STATUS :'.length;
+      } else {
+        // If 'STATUS :' is not found, append the remaining text and break the loop
+        cleanedText += text.substring(methodStart);
+        break;
+      }
     }
 
     return cleanedText;
