@@ -5,7 +5,7 @@ document.getElementById('cleanButton').addEventListener('click', function() {
 });
 
 function cleanMultipleTextBlocks(text) {
-    // Optional
+    // Optional cleaning, comment out if not needed
     text = text.replace(/\n   /g, '');
     text = text.replace(/ {9}/g, ' ');
 
@@ -13,34 +13,37 @@ function cleanMultipleTextBlocks(text) {
     let lastIndex = 0;
 
     while (true) {
-      let methodStart = text.indexOf('METHOD:', lastIndex);
-      let statusStart = text.indexOf('STATUS :', methodStart);
-      
-      if (methodStart === -1) {
-        cleanedText += text.substring(lastIndex); // Append any remaining text
-        break;
-      }
-      
-      // Add text up to 'METHOD:' as is
-      cleanedText += text.substring(lastIndex, methodStart);
-      
-      if (statusStart !== -1) {
-        // Process the text between 'METHOD:' and 'STATUS :'
+        let methodStart = text.indexOf('METHOD:', lastIndex);
+        let statusStart = text.indexOf('STATUS    :', methodStart);
+
+        if (methodStart === -1) {
+            cleanedText += text.substring(lastIndex); // Append any remaining text
+            break;
+        }
+
+        // Add text up to 'METHOD:' as is
+        cleanedText += text.substring(lastIndex, methodStart);
+
+        if (statusStart === -1) {
+            // Process the final block which only contains 'METHOD:'
+            let relevantText = text.substring(methodStart + 'METHOD:'.length);
+            relevantText = cleanText(relevantText);
+            cleanedText += 'METHOD:' + relevantText;
+            break; // Exit the loop as this is the last block
+        }
+
+        // Process the text between 'METHOD:' and 'STATUS    :'
         let relevantText = text.substring(methodStart + 'METHOD:'.length, statusStart);
         relevantText = cleanText(relevantText);
-        
-        // Append processed text and include 'METHOD:' and 'STATUS :' as is
-        cleanedText += 'METHOD:' + relevantText + '\\n\\nSTATUS :';
-        
+
+        // Append processed text and include 'METHOD:' and 'STATUS    :' as is
+        cleanedText += 'METHOD:' + relevantText + '\n\nSTATUS    :';
+
         // Update lastIndex for the next iteration
-        lastIndex = statusStart + 'STATUS :'.length;
-      } else {
-        // If 'STATUS :' is not found, append the remaining text and break the loop
-        cleanedText += text.substring(methodStart);
-        break;
-      }
+        lastIndex = statusStart + 'STATUS    :'.length;
     }
 
+    cleanedText = cleanedText.replace(/ {9}/g, ' ');
     return cleanedText;
 }
 
@@ -50,6 +53,8 @@ function cleanText(text) {
     text = text.replace(/ {6}/g, '');
     return text;
 }
+
+
 
 document.getElementById('cleanButton').addEventListener('click', function() {
     var inputText = document.getElementById('inputText').value;
